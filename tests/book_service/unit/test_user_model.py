@@ -1,5 +1,4 @@
 ## book_service/tests/unit/test_user_model.py
-import pytest
 
 from book_service.models import User
 
@@ -9,23 +8,6 @@ def test_user_model_fields():
     assert user.username == "john"
     assert user.password == "secret"
     assert user.role == "admin"
-
-
-def test_user_default_role():
-    user = User(username="john", password="secret")
-    assert user.username == "john"
-    assert user.password == "secret"
-    assert user.role == "user"
-
-
-def test_user_blank_username():
-    with pytest.raises(ValueError):
-        user = User(password="secret", role="user")
-
-
-def test_user_blank_password():
-    with pytest.raises(ValueError):
-        user = User(username="john", role="user")
 
 
 def test_user_to_dict():

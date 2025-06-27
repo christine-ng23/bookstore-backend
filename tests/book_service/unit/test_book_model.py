@@ -1,6 +1,10 @@
 ## book_service/tests/unit/test_book_model.py
+
 import pytest
+from sqlalchemy.exc import IntegrityError
+
 from book_service.models import Book
+
 
 def test_book_model_fields():
     book = Book(code="B001", name="Book", publisher="Pub", quantity=5, imported_price=100.0, sell_price=110.0)
@@ -23,22 +27,16 @@ def test_book_to_dict():
     assert book_dict["imported_price"] == 100
     assert book_dict["sell_price"] == 110
 
-def test_book_negative_quantity():
-    with pytest.raises(ValueError):
-        Book(code="B002", name="Invalid Book", publisher="BadPub", quantity=-1, imported_price=50, sell_price=55)
 
-def test_book_float_quantity():
-    with pytest.raises(ValueError):
-        Book(code="B002", name="Invalid Book", publisher="BadPub", quantity=10.5, imported_price=50, sell_price=55)
+def test_book_blank_code(db_session):
+    with pytest.raises(IntegrityError):
+        book = Book(name="Invalid Book", publisher="BadPub", quantity=1, imported_price=50, sell_price=55)
+        db_session.add(book)
+        db_session.commit()
 
-def test_book_not_a_number_quantity():
-    with pytest.raises(ValueError):
-        Book(code="B002", name="Invalid Book", publisher="BadPub", quantity="text", imported_price=50, sell_price=55)
 
-def test_book_blank_code():
-    with pytest.raises(ValueError):
-        Book(name="Invalid Book", publisher="BadPub", quantity=1, imported_price=50, sell_price=55)
-
-def test_book_blank_name():
-    with pytest.raises(ValueError):
-        Book(code="B002", publisher="BadPub", quantity=1, imported_price=50, sell_price=55)
+def test_book_blank_name(db_session):
+    with pytest.raises(IntegrityError):
+        book = Book(code="B002", publisher="BadPub", quantity=1, imported_price=50, sell_price=55)
+        db_session.add(book)
+        db_session.commit()

@@ -1,0 +1,24 @@
+{
+  "users": [
+    {"username": "admin", "password": "admin", "role": "admin"},
+    {"username": "user", "password": "pw", "role": "user"}
+  ],
+  "books": [
+    {
+      "code": "B001",
+      "name": "Python Basics",
+      "publisher": "O'Reilly",
+      "quantity": 10,
+      "imported_price": 100,
+      "sell_price": 110
+    },
+    {
+      "code": "B002",
+      "name": "Python Advanced",
+      "publisher": "O'Reilly",
+      "quantity": 15,
+      "imported_price": 95.55,
+      "sell_price": 100.55
+    }
+  ]
+}

@@ -1,0 +1,168 @@
+{
+  "auth_user": {
+    "admin_user": {
+      "id": 1,
+      "username": "admin",
+      "password": "admin",
+      "role": "admin"
+    },
+    "normal_user": {
+      "id": 2,
+      "username": "user",
+      "password": "pw",
+      "role": "user"
+    },
+    "non_existed_username": {
+      "username": "username",
+      "password": "pw"
+    },
+    "incorrect_password": {
+      "username": "user",
+      "password": "password"
+    }
+  },
+  "register_user_case": {
+    "normal_user": {
+      "username": "user_role",
+      "password": "pw",
+      "role": "user",
+      "res_code": 201,
+      "res": {
+            "message": "User registered successfully",
+            "user": {
+                "id": 3,
+                "role": "user",
+                "username": "user_role"
+            }
+        }
+    },
+      "default_user_role": {
+      "username": "user_role",
+      "password": "pw",
+      "res_code": 201,
+      "res": {
+            "message": "User registered successfully",
+            "user": {
+                "id": 3,
+                "role": "user",
+                "username": "user_role"
+            }
+        }
+    },
+    "admin_user_by_admin": {
+      "username": "admin_role",
+      "password": "pw",
+      "role": "admin",
+      "res_code": 201,
+      "res": {
+            "message": "User registered successfully",
+            "user": {
+                "id": 3,
+                "role": "admin",
+                "username": "admin_role"
+            }
+        }
+    },
+    "blank_fields": {
+      "username": "",
+      "password": "",
+      "res_code": 400,
+      "res": {
+            "error": "Missing required fields",
+            "fields": [
+                "username",
+                "password"
+            ]
+      }
+    },
+    "incorrect_field_types": {
+      "username": 2,
+      "password": 2,
+      "role": 2,
+      "res_code": 400,
+      "res": {
+        "error": "Field 'username' must be of type str; Field 'password' must be of type str; Field 'role' must be of type str"
+    }
+
+    },
+    "invalid_format_username": {
+      "username": "user name!",
+      "password": "pw",
+      "role": "user",
+      "res_code": 400,
+      "res": {
+            "error": "Username format is invalid. Only letters, numbers, underscores, hyphens, and dots are allowed."
+        }
+    },
+    "invalid_role_value": {
+      "username": "username",
+      "password": "pw",
+      "role": "role",
+      "res_code": 400,
+      "res": { "error": "Role must be one of: admin, user"}
+    },
+    "admin_user_by_normal_user": {
+      "username": "admin_role",
+      "password": "pw",
+      "role": "admin",
+      "res_code": 403,
+      "res": { "error": "Only admin can assign roles other than 'user'"}
+    },
+    "not_unique_username": {
+      "username": "user",
+      "password": "pw",
+      "role": "user",
+      "res_code": 400,
+      "res": {"error": "A user with this username already exists."}
+    }
+  },
+  "list_user": {
+    "authorized": {
+      "user": "admin_user",
+      "res_code": 200,
+      "res": [
+        {
+          "id": 1,
+          "role": "admin",
+          "username": "admin"
+        },
+        {
+          "id": 2,
+          "role": "user",
+          "username": "user"
+        }
+      ]
+    },
+    "no_auth": {
+      "user": null,
+      "res_code": 401,
+      "res": { "error": "Authorization header missing or invalid" }
+    },
+    "not_bear": {
+      "user": null,
+      "res_code": 401,
+      "res": { "error": "Authorization header missing or invalid" }
+    },
+    "blank_token": {
+      "user": null,
+      "res_code": 401,
+      "res": { "error": "Authorization header missing or invalid" }
+    },
+    "invalid_token": {
+      "user": null,
+      "res_code": 401,
+      "res": { "error": "Invalid token" }
+    },
+    "expired_token": {
+      "user": null,
+      "res_code": 401,
+      "res": { "error": "Token expired" }
+    },
+    "unauthorized_user": {
+      "user": "normal_user",
+      "res_code": 403,
+      "res": { "error": "Forbidden: insufficient permission" }
+    }
+
+  }
+}

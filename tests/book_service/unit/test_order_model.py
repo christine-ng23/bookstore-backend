@@ -50,7 +50,7 @@ def test_foreign_key_relationship(db_session):
     db_session.commit()
 
     # Create order with valid FK with one-one relationship
-    order = Order(user_id=user.id, status="new", created_at=datetime.utcnow())
+    order = Order(user_id=user.id, status="new", created_at=datetime(2024, 1, 1))
     db_session.add(order)
     db_session.commit()
     assert order.user == user

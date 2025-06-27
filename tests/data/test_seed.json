@@ -1,0 +1,90 @@
+{
+  "users": [
+    {"username": "admin", "password": "admin", "role": "admin"},
+    {"username": "user", "password": "pw", "role": "user"}
+  ],
+  "books": [
+    {
+      "code": "B001",
+      "name": "Python Basics",
+      "publisher": "O'Reilly",
+      "quantity": 10,
+      "imported_price": 100,
+      "sell_price": 110
+    },
+    {
+      "code": "B002",
+      "name": "Python Advanced",
+      "publisher": "O'Reilly",
+      "quantity": 15,
+      "imported_price": 95.55,
+      "sell_price": 100.55
+    }
+  ],
+  "orders": [
+    {
+      "user_username": "admin",
+      "status": "new",
+      "items": [
+        {"book_code": "B001", "quantity": 10, "price_each": 110},
+        {"book_code": "B002", "quantity": 11, "price_each": 100.55}
+      ]
+    },
+    {
+      "user_username": "admin",
+      "status": "processing",
+      "items": [
+        {"book_code": "B001", "quantity": 20, "price_each": 112}
+      ]
+    },
+    {
+      "user_username": "user",
+      "status": "new",
+      "items": [
+        {"book_code": "B001", "quantity": 30, "price_each": 112}
+      ]
+    },
+    {
+      "user_username": "user",
+      "status": "new",
+      "items": [
+        {"book_code": "B001", "quantity": 40, "price_each": 112}
+      ]
+    },
+    {
+      "user_username": "user",
+      "status": "processing",
+      "items": [
+        {"book_code": "B001", "quantity": 50, "price_each": 112}
+      ]
+    },
+    {
+      "user_username": "user",
+      "status": "shipping",
+      "items": [
+        {"book_code": "B001", "quantity": 60, "price_each": 113}
+      ]
+    },
+    {
+      "user_username": "user",
+      "status": "delivered",
+      "items": [
+        {"book_code": "B001", "quantity": 70, "price_each": 114}
+      ]
+    },
+    {
+      "user_username": "user",
+      "status": "canceled",
+      "items": [
+        {"book_code": "B001", "quantity": 80, "price_each": 115}
+      ]
+    },
+    {
+      "user_username": "user",
+      "status": "rejected",
+      "items": [
+        {"book_code": "B001", "quantity": 90, "price_each": 116}
+      ]
+    }
+  ]
+}

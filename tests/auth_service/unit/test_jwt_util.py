@@ -3,7 +3,7 @@ from datetime import datetime, timezone
 
 import jwt
 import pytest
-from jwt import DecodeError, ExpiredSignatureError
+from jwt import ExpiredSignatureError, InvalidTokenError
 
 from auth_service.config import SECRET
 from auth_service.token_utils import generate_token, verify_token, timedelta
@@ -17,7 +17,7 @@ def test_generate_token_and_verify():
     assert payload["role"] == expected_payload["role"]
 
 
-def test_generate_token_and_verify_empty():
+def test_generate_token_and_verify_with_empty_payload():
     expected_payload = {}
     token = generate_token(expected_payload)
     payload = verify_token(token)
@@ -33,5 +33,5 @@ def test_verify_token_expired():
 
 
 def test_verify_token_invalid():
-    with pytest.raises((ValueError, DecodeError)):
+    with pytest.raises(InvalidTokenError):
         verify_token("not-a-token")

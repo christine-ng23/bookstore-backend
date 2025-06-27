@@ -42,7 +42,6 @@ def authorize():
 
         # Simulate creating auth code
         code = secrets.token_urlsafe(16)
-        print(code)
         auth_codes[code] = user.username
 
         # Redirect with code (normally you'd use HTTP redirect, here we simulate JSON)
@@ -57,11 +56,8 @@ def exchange_token():
     data = request.get_json()
     client_id = data.get('client_id')
     client_secret = data.get('client_secret')
-    for f in data:
-        print(f"{f}={data[f]} (type: {type(data[f])})")
     code = data.get('code')
     redirect_uri = data.get('redirect_uri')
-    print(data)
     # Validate required fields
     missing = []
     if not client_id:
@@ -107,7 +103,6 @@ def exchange_token():
         "role": user.role
     }
     access_token = generate_token(payload)
-    print(access_token)
 
     return jsonify({
         'access_token': access_token,

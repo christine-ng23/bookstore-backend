@@ -1,4 +1,4 @@
-# tests/conftest.py
+## tests/auth_service/conftest.py
 import pytest
 
 from auth_service.config import CLIENT_ID, CLIENT_SECRET

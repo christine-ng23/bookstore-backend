@@ -5,65 +5,85 @@ Project: Demo for a Bookstore Web App Backend (Microservice Architecture) with O
 ```
 bookstore-app/
 ├── README.md
+├── requirements.txt
+├── bookstore.db
+├── auth_service/
+│    ├── __init__.py
+│    ├── app.py                    # Create, config, run app (Werkzeug's WSGI server)
+│    ├── auth_middleware.py        # OAuth2 authorization service
+│    ├── config.py                 # Auth config (SECRET, TOKEN_EXPIRE_MINUTES)
+│    ├── db.py
+│    ├── init_admin.py
+│    ├── routes.py
+│    └── token_utils.py
+├── book_service/
+│    ├── __init__.py
+│    ├── app.py                    # Create, config, run app (Werkzeug's WSGI server)
+│    ├── db.py
+│    ├── models.py
+│    ├── routes.py
+│    ├── services/
+│    │    ├── __init__.py
+│    │    ├── book_service.py
+│    │    ├── order_service.py
+│    │    └── user_service.py
+│    └── utils/
+│        ├── __init__.py
+│        ├── handlers.py           # Decorator (handle exception at api level)
+│        └── utils.py
 ├── common/
-│   ├── auth.py                # Commom auth utils
-│   ├── constants.py           # Shared config (DB_PATH) (Current version services use shared db)
-│   ├── exceptions.py          # Custom exception
-│   ├── models.py              # Shared User model and Base
-│   └── utils.py
-├── auth_service/              # OAuth2 authorization service
-│   ├── app.py
-│   ├── routes.py              # API services
-│   ├── auth_middleware.py     # Auth decorators
-│   ├── token_utils.py
-│   ├── db.py
-│   ├── config.py              # Auth config (SECRET, TOKEN_EXPIRE_MINUTES)
-│   └── init_admin.py
-├── book_service/              # Book microservice
-│   ├── app.py                 # Create, config, run app (Werkzeug's WSGI server)
-│   ├── models.py              # SQLAlchemy models
-│   ├── db.py                  # Database setup
-│   ├── routes.py              # APIs: parse and forward data to specific services
-│   ├── services/              # Book, Order, User logic
-│   │   ├── book_service.py
-│   │   ├── order_service.py
-│   │   └── user_service.py
-│   └── utils/              
-│       ├── handlers.py        # Decorator (handle exception at api level)
-│       └── utils.py           # Service data validation
-├── tests/
-│   ├── conftest.py            # Common fixtures
-│   ├── book_service/
-│   │   ├── conftest.py
-│   │   ├── unit/
-│   │   │   ├── conftest.py
-│   │   │   ├── test_book_model.py
-│   │   │   ├── test_order_model.py
-│   │   │   ├── test_order_item_model.py
-│   │   │   ├── test_user_model.py
-│   │   │   └── test_user_service_isolated.py
-│   │   ├── itegration
-│   │   │   └── test_user_service.py
-│   │   └── api
-│   │       ├── test_book_api.py
-│   │       ├── test_order_api.py
-│   │       └── test_user_api.py
-│   ├── auth_service/
-│   │   ├── conftest.py
-│   │   ├── unit/
-│   │   │   └── test_jwt_util.py
-│   │   ├── itegration
-│   │   │   └── test_auth_decorators.py
-│   │   └── api
-│   │       ├── test_auth_enpoints.py
-│   │       └── pages
-│   │           └── auth_api.py
-│   └── utils/     
-│       ├── data_loader.py
-│       └── session_factory.py
-├── bookstore.db              # SQLite database file
-├── docker-compose.yml
-└── requirements.txt
+│    ├── __init__.py
+│    ├── auth.py                   # Commom auth utils
+│    ├── constants.py              # Shared config (DB_PATH)
+│    ├── exceptions.py             # Custom exception
+│    └── models.py                 # Shared User model and Base
+└── tests/
+    ├── __init__.py
+    ├── auth_service/                   
+    │    ├── __init__.py
+    │    ├── api/
+    │    │    ├── __init__.py
+    │    │    ├── pages/
+    │    │    │    ├── __init__.py
+    │    │    │    └── auth_api.py
+    │    │    └── test_auth_endpoints.py
+    │    ├── conftest.py
+    │    ├── integration/
+    │    │    ├── __init__.py
+    │    │    └── test_auth_decorators.py    # Auth decorators
+    │    └── unit/
+    │         ├── __init__.py
+    │         └── test_jwt_util.py
+    ├── book_service/
+    │    ├── __init__.py
+    │    ├── api/
+    │    │    ├── __init__.py
+    │    │    ├── test_book_api.py
+    │    │    ├── test_order_api.py
+    │    │    └── test_user_api.py
+    │    ├── conftest.py
+    │    ├── integration/
+    │    │    ├── __init__.py
+    │    │    └── test_user_service.py
+    │    └── unit/
+    │         ├── __init__.py
+    │         ├── test_book_model.py
+    │         ├── test_order_item_model.py
+    │         ├── test_order_model.py
+    │         ├── test_user_model.py
+    │         └── test_user_service_isolated.py
+    ├── conftest.py
+    ├── data/
+    │    ├── __init__.py
+    │    ├── test_data.json
+    │    ├── test_seed.json
+    │    ├── test_seed_only_users.json
+    │    └── test_seed_users_books.json
+    └── utils/
+         ├── __init__.py
+         ├── data_loader.py
+         ├── session_factory.py
+         └── validator.py
 
 ```
 
@@ -93,9 +113,8 @@ python -m book_service.db  # Creates tables using models.py
 
 cd book_service && flask run --port 5001
 
-# Run auth service
+# Run auth service and swagger documentation ready at http://127.0.0.1:5000/
 cd auth_service && flask run --port 5000
-
 ```
 
 ## Auth Roles:
@@ -146,8 +165,8 @@ Explanation:
 Output would look like:
 ```
 book_service/services/book_service.py       85%   lines 33-35 not covered
-auth_service/routes.py                      100%
-common/models.py                            90%   line 19 not covered
+auth_service/routes.py            100%
+common/models.py             90%   line 19 not covered
 ```
 
 ## Security Considerations:

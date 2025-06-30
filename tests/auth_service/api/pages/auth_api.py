@@ -9,7 +9,7 @@ class AuthAPI:
     def authorize(self, data):
         return requests.post(
             f"{self.base_url}/authorize",
-            data=data
+            json=data
         )
 
     def exchange_token(self, json):

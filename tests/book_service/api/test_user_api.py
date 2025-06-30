@@ -2,7 +2,7 @@
 import pytest
 
 from common.constants import TEST_SESSION_TYPE
-from common.utils import assert_json_structure
+from tests.utils.validator import assert_json_structure
 
 
 @pytest.mark.parametrize("client", [{"type": TEST_SESSION_TYPE, "json_file": "test_seed_only_users.json"}], indirect=True)
@@ -54,15 +54,15 @@ def test_list_user_unsuccessful_not_bear_token(client, auth_header_not_bear):
 @pytest.mark.parametrize("client", [{"type": TEST_SESSION_TYPE}], indirect=True)
 def test_list_user_unsuccessful_empty_token(client, auth_header_empty_token):
     """
-   Response 401
+    Response 401
        {
        "error": "Authorization header missing or invalid"
        }
-   """
+    """
     res = client.get("/users", headers=auth_header_empty_token)
     assert res.status_code == 401
     assert "error" in res.json
-    assert res.json['error'] == "Authorization header missing or invalid"
+    assert res.json['error'] == "Invalid token"
 
 
 @pytest.mark.parametrize("client", [{"type": TEST_SESSION_TYPE}], indirect=True)

@@ -1,10 +1,8 @@
-# eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJyb2xlIjoiYWRtaW4iLCJleHAiOjE3NTQ1MDYwNjZ9.-aFIS-9CadGECem5c61XnqUA8AdrlvmkFg_1m6mQFjo
-# eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyLCJyb2xlIjoidXNlciIsImV4cCI6MTc1NDUwNjMxNn0.oi0dPczTe4HWbb70H4Q7LlmlISwCipAeqpynL2aPTHc
 ## tests/book_service/api/test_order_api.py
 import pytest
 
 from common.constants import TEST_SESSION_TYPE, ORDER_TRANSITIONS, OrderStatus
-from common.utils import assert_json_structure
+from tests.utils.validator import assert_json_structure
 
 
 @pytest.mark.parametrize("client", [{"type": TEST_SESSION_TYPE, "json_file": "test_seed.json"}], indirect=True)

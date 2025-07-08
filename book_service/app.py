@@ -3,6 +3,7 @@ from flask import Flask
 
 from common.constants import DB_PATH
 from .routes import books_bp
+from .auth_proxy import auth_proxy_bp
 
 def create_app(session_factory=None):
     # Initializes a Flask application
@@ -14,6 +15,7 @@ def create_app(session_factory=None):
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     # Register a blueprint on the application
     app.register_blueprint(books_bp)
+    app.register_blueprint(auth_proxy_bp)
     return app
 
 app = create_app()

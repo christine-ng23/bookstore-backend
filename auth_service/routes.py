@@ -162,6 +162,7 @@ class Token(Resource):
             'access_token': access_token,
             'token_type': 'bearer',
             'expires_in': TOKEN_EXPIRE_MINUTES,
-            'redirect_uri': redirect_uri
+            'redirect_uri': redirect_uri,
+            'role': user.role
         }, 200
 

@@ -47,6 +47,7 @@ def test_exchange_token_successful(auth_api, code):
     json_data = res_token.json()
     assert "access_token" in json_data
     assert "expires_in" in json_data
+    assert "code" in json_data and code == "user"
 
 def test_exchange_token_unsuccessful_missing_required_field(auth_api):
     res = auth_api.exchange_token(json={})

@@ -4,4 +4,5 @@ SECRET = 'supersecretjwtkey'  # private key used to sign/verify JWT using in Aut
 CLIENT_ID = 'client123'  # registered with Authenticate Server
 CLIENT_SECRET = 'secret456' # registered with Authenticate Server
 TOKEN_EXPIRE_MINUTES = 60000
-TOKEN_ENDPOINT = "http://localhost:5000/token"
+AUTH_SERVER = "http://localhost:5000"
+FRONTEND_SERVER = "http://localhost:3000"

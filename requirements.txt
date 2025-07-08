@@ -10,3 +10,4 @@ pytest-check
 coverage
 pytest-cov
 flask-restx
+flask-cors

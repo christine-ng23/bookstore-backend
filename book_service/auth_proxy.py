@@ -5,7 +5,7 @@ Proxy to auth server, for example to exchange code with access token
 from flask import Blueprint, request, jsonify
 import requests
 
-from auth_service.config import CLIENT_ID, CLIENT_SECRET, TOKEN_ENDPOINT
+from auth_service.config import CLIENT_ID, CLIENT_SECRET, AUTH_SERVER
 from book_service.utils.utils import validate_field_types
 
 auth_proxy_bp = Blueprint("auth_proxy", __name__)
@@ -41,7 +41,7 @@ def exchange_code():
     if errors:
         return {"error": "; ".join(errors)}, 400
     try:
-        response = requests.post(TOKEN_ENDPOINT, json={
+        response = requests.post(f"{AUTH_SERVER}/token", json={
             "code": code,
             "client_id": CLIENT_ID,
             "client_secret": CLIENT_SECRET,

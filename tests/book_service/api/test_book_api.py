@@ -1,6 +1,6 @@
 import pytest
 
-from common.constants import TEST_SESSION_TYPE
+from common.config import TEST_SESSION_TYPE
 
 
 @pytest.mark.parametrize("client", [{"type": TEST_SESSION_TYPE, "json_file": "test_seed_users_books.json"}], indirect=True)

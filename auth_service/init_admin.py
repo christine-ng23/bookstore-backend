@@ -2,7 +2,7 @@
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import create_engine
 
-from common.constants import DB_PATH
+from common.config import DB_PATH
 from common.models import User
 
 engine = create_engine(f'sqlite:///{DB_PATH}')

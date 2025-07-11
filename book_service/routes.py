@@ -14,19 +14,12 @@ Each API Responsibilities:
 from flask import Blueprint, request, jsonify, g, current_app
 
 from auth_service.auth_middleware import require_auth, require_role
-from .db import get_default_session_factory
+from .db import get_session
 from .services.book_service import *
 from .services.order_service import *
 from .services.user_service import *
 from .utils.handlers import handle_exceptions
 books_bp = Blueprint('books', __name__)
-
-
-def get_session():
-    session_factory = current_app.config.get("SESSION_FACTORY")
-    if not session_factory:
-        session_factory = get_default_session_factory()
-    return session_factory()
 
 
 @books_bp.route('/books')

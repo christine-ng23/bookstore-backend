@@ -1,7 +1,7 @@
 ## tests/book_service/api/test_user_api.py
 import pytest
 
-from common.constants import TEST_SESSION_TYPE
+from common.config import TEST_SESSION_TYPE
 from tests.utils.validator import assert_json_structure
 
 

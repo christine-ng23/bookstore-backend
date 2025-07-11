@@ -11,3 +11,4 @@ coverage
 pytest-cov
 flask-restx
 flask-cors
+python-dotenv

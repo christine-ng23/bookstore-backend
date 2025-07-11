@@ -1,7 +1,8 @@
 ## tests/book_service/api/test_order_api.py
 import pytest
 
-from common.constants import TEST_SESSION_TYPE, ORDER_TRANSITIONS, OrderStatus
+from common.config import TEST_SESSION_TYPE
+from common.constants import ORDER_TRANSITIONS, OrderStatus
 from tests.utils.validator import assert_json_structure
 
 

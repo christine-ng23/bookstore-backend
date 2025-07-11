@@ -3,7 +3,7 @@
 import pytest
 
 from book_service.app import create_app
-from tests.utils.data_loader import initialized_data
+from test_utils.data_loader import initialize_data_from_json
 from tests.utils.session_factory import session_factory
 
 
@@ -80,7 +80,7 @@ def mock_session(request):
     # Preload data if specified
     session = MockSession()
     if json_file:
-        initialized_data(session, json_file)
+        initialize_data_from_json(session, json_file)
     yield session
     session.close()
 

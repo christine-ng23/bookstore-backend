@@ -1,9 +1,10 @@
+# test_utils/data_loader.py
 import json
 import os
 
 from book_service.models import OrderItem, Order, Book
 from common.auth import hash_password
-from common.constants import TEST_DATA_DIR
+from common.config import TEST_DATA_DIR
 from common.models import User, Base
 
 
@@ -18,11 +19,14 @@ def clean_data(session):
     session.commit()
 
 
-def initialized_data(session, json_file):
+def initialize_data_from_json(session, json_file):
     json_path = os.path.join(TEST_DATA_DIR, json_file)
     with open(json_path) as f:
         data = json.load(f)
+        initialize_data(session, data)
 
+
+def initialize_data(session, data):
     # Users
     username_map = {}
     for user in data.get("users", []):

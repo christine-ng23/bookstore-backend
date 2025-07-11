@@ -4,9 +4,9 @@ from flask import request, jsonify, current_app, make_response
 from flask_restx import Namespace, Resource, fields
 
 from book_service.utils.utils import validate_field_types
-from .init_admin import Session
+from .db import get_session
 from .token_utils import generate_token
-from auth_service.config import CLIENT_ID, CLIENT_SECRET, TOKEN_EXPIRE_MINUTES
+from .config import CLIENT_ID, CLIENT_SECRET, TOKEN_EXPIRE_MINUTES
 from common.models import User
 import secrets
 
@@ -25,10 +25,6 @@ token_model = auth_api_ns.model('TokenRequest', {
     'client_secret': fields.String(required=True),
     'code': fields.String(required=True)
 })
-
-def get_session():
-    session_factory = current_app.config.get("SESSION_FACTORY")
-    return session_factory() if session_factory else Session()
 
 
 @auth_api_ns.route('/authorize')

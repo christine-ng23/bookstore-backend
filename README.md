@@ -1,4 +1,118 @@
-Project: Demo for a Bookstore Web App Backend (Microservice Architecture) with OAuth2 Authorization
+# Bookstore Backtend (Flask + OAuth2)
+## Description
+A backend service for the Bookstore App built with Flask using Microservices Architecture and OAuth2 Authorization
+- **Auth Service (Flask)** handles OAuth2 token issuance
+- **Book Service (Flask)** persists data in SQLite using SQLAlchemy
+
+Supports:
+
+    Secure token exchange (Authorization Code Grant)
+
+    Role-based access control (admin/user)
+
+    RESTful APIs for books, users, and orders
+
+Testing strategy follows the Tri-layer test architecture:
+
+    Unit tests for logic and validation
+
+    Integration tests for service interactions
+
+    API testing with pytest, requests, logging, and Allure reports
+
+
+
+The frontend resides in a separate repository built with React+Bootstrap:
+
+    User features
+    - Register & login
+    - Browse book list
+    - View & manage cart
+    - Place order
+
+    Admin features
+    - Login/logout
+    - Manage users
+    - Manage books
+    - View & update orders
+  
+## Technologies:
+- Backend: Flask, SQLAlchemy, pyjwt, requests, pytest
+- Auth: OAuth 2.0 Authorization Code Grant
+- DB: SQLite (bookstore.db)
+
+## Setup:
+```bash
+# Install backend dependencies
+pip install -r requirements.txt
+
+# Initialize database schema
+python -m auth_service.db  # Creates tables using common/models.py
+python -m auth_service.init_admin  # Add default admin user
+python -m book_service.db  # Creates tables using models.py
+
+cd book_service && flask run --port 5001
+
+# Run auth service and swagger documentation ready at http://127.0.0.1:5000/
+cd auth_service && flask run --port 5000
+```
+
+## Auth Roles:
+- Admin: manage users, books, orders (view/add/edit/delete/status update)
+- Customer: register, login, browse/search books, make orders, cancel new orders
+
+## Backend Features:
+- **Books**: CRUD (admin), list/search (all)
+- **Users**: register (customer), list/view/add/edit/delete (admin)
+- **Orders**: place/view (customer), update status (admin), cancel new (customer)
+
+## Database:
+SQLite used for persistence.
+- **users**: id, username, password, role
+- **books**: id, code, name, publisher, quantity, imported_price, sell_price
+- **orders**: id, user_id, status, created_at
+- **order_items**: id, order_id, book_id, quantity, price_each
+- Managed with SQLAlchemy ORM in `models.py`
+
+## Endpoints:
+
+### Auth Service
+- `GET /authorize` | `POST /token`
+
+### Book Service (JWT-secured)
+- `GET /books`, `GET /books/<id>`
+- `POST /books`, `PUT /books/<id>`, `DELETE /books/<id>` (admin)
+- `GET /users`, `POST /users`, `PUT /users/<id>`, `DELETE /users/<id>` (admin)
+- `POST /register` (customer)
+- `POST /orders`, `GET /orders`, `PUT /orders/<id>/status`
+
+## Testing:
+```bash
+# Running all test
+pytest tests/
+# Running test with code coverage measurement
+pytest --cov=book_service --cov=auth_service --cov=common --cov-report=term-missing
+# With HTML report (report goes into folder: htmlcov)
+pytest tests/**/unit/ --cov=book_service --cov=auth_service --cov=common --cov-report=html
+# Check coverage for specific file
+pytest --cov=book_service/services/books.py --cov-report=term-missing
+
+```
+Explanation:
+- --cov=module_name: track coverage for that package/module (repeat for each)
+- --cov-report=term-missing: shows which lines weren't executed
+
+Output would look like:
+```
+book_service/services/book_service.py       85%   lines 33-35 not covered
+auth_service/routes.py            100%
+common/models.py             90%   line 19 not covered
+```
+
+## Security Considerations:
+- Use HTTPS in production
+- JWT-based auth, scoped by roles
+- Avoid hardcoded secrets in production (use env vars)
 
 ## Folder Structure:
 
@@ -86,93 +200,6 @@ bookstore-app/
          └── validator.py
 
 ```
-
-## Description:
-A microservice-based bookstore web application backend:
-- **Auth Service (Flask)** handles OAuth2 token issuance
-- **Book Service (Flask)** persists data in SQLite using SQLAlchemy
-
-The frontend will reside in a separate repository (future development)
-- **Customer Portal (React)** for book browsing and orders
-- **Admin Portal (React)** for user, book, and order management
-
-## Technologies:
-- Backend: Flask, SQLAlchemy, pyjwt, requests, pytest
-- Auth: OAuth 2.0 Authorization Code Grant
-- DB: SQLite (bookstore.db)
-
-## Setup:
-```bash
-# Install backend dependencies
-pip install -r requirements.txt
-
-# Initialize database schema
-python -m auth_service.db  # Creates tables using common/models.py
-python -m auth_service.init_admin  # Add default admin user
-python -m book_service.db  # Creates tables using models.py
-
-cd book_service && flask run --port 5001
-
-# Run auth service and swagger documentation ready at http://127.0.0.1:5000/
-cd auth_service && flask run --port 5000
-```
-
-## Auth Roles:
-- Admin: manage users, books, orders (view/add/edit/delete/status update)
-- Customer: register, login, browse/search books, make orders, cancel new orders
-
-## Backend Features:
-- **Books**: CRUD (admin), list/search (all)
-- **Users**: register (customer), list/view/add/edit/delete (admin)
-- **Orders**: place/view (customer), update status (admin), cancel new (customer)
-
-## Database:
-SQLite used for persistence.
-- **users**: id, username, password, role
-- **books**: id, code, name, publisher, quantity, imported_price, sell_price
-- **orders**: id, user_id, status, created_at
-- **order_items**: id, order_id, book_id, quantity, price_each
-- Managed with SQLAlchemy ORM in `models.py`
-
-## Endpoints:
-
-### Auth Service
-- `GET /authorize` | `POST /token`
-
-### Book Service (JWT-secured)
-- `GET /books`, `GET /books/<id>`
-- `POST /books`, `PUT /books/<id>`, `DELETE /books/<id>` (admin)
-- `GET /users`, `POST /users`, `PUT /users/<id>`, `DELETE /users/<id>` (admin)
-- `POST /register` (customer)
-- `POST /orders`, `GET /orders`, `PUT /orders/<id>/status`
-
-## Testing:
-```bash
-# Running all test
-pytest tests/
-# Running test with code coverage measurement
-pytest --cov=book_service --cov=auth_service --cov=common --cov-report=term-missing
-# With HTML report (report goes into folder: htmlcov)
-pytest tests/**/unit/ --cov=book_service --cov=auth_service --cov=common --cov-report=html
-# Check coverage for specific file
-pytest --cov=book_service/services/books.py --cov-report=term-missing
-
-```
-Explanation:
-- --cov=module_name: track coverage for that package/module (repeat for each)
-- --cov-report=term-missing: shows which lines weren't executed
-
-Output would look like:
-```
-book_service/services/book_service.py       85%   lines 33-35 not covered
-auth_service/routes.py            100%
-common/models.py             90%   line 19 not covered
-```
-
-## Security Considerations:
-- Use HTTPS in production
-- JWT-based auth, scoped by roles
-- Avoid hardcoded secrets in production (use env vars)
 
 ## License:
 MIT

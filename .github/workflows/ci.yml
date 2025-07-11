@@ -12,7 +12,7 @@ jobs:
 
     env:
       FLASK_ENV: development
-      TESTING: true
+      ENV: test
       PYTHONUNBUFFERED: 1  # ensures logs are not buffered
 
     steps:
